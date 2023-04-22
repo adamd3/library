@@ -48,22 +48,25 @@ function getBook() {
   return new Book(title, author, pages, read);
 }
 
-function addBook(event) {
+const addBook = (event) => {
   event.preventDefault();
-  const newBook = getBook();
-  myLibrary.push(newBook);
-  document.getElementById('book-form').reset();
-  addBookModal.style.display = 'none';
-  displayBooks();
-}
+  try {
+    const newBook = getBook();
+    myLibrary.push(newBook);
+    document.getElementById('book-form').reset();
+    displayBooks();
+  } catch (error) {
+    alert(error.message);
+  }
+};
 
-function removeBook(title) {
+const removeBook = (title) => {
   const index = myLibrary.findIndex((book) => book.title === title);
   if (index > -1) {
     myLibrary.splice(index, 1);
     displayBooks();
   }
-}
+};
 
 function displayBooks() {
   const bookContainer = document.getElementById('book-container');
