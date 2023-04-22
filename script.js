@@ -1,11 +1,26 @@
 const myLibrary = [];
 
+const newBookButton = document.getElementById('new-book-btn');
+const bookForm = document.getElementById('book-form');
+const formContainer = document.getElementById('form-container');
+const bookContainer = document.getElementById('book-container');
+
+newBookButton.addEventListener('click', showForm);
+
+bookForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  addBook();
+  bookForm.reset();
+  hideForm();
+  displayBooks();
+});
+
 function showForm() {
-  document.getElementById('form-container').style.display = 'block';
+  formContainer.style.display = 'block';
 }
 
 function hideForm() {
-  document.getElementById('form-container').style.display = 'none';
+  formContainer.style.display = 'none';
 }
 
 function Book(title, author, pages, read) {
@@ -24,29 +39,30 @@ function getBook() {
 }
 
 function addBook() {
-  event.preventDefault();
   const newBook = getBook();
   myLibrary.push(newBook);
-  document.getElementById('book-form').reset();
-  hideForm();
-  displayBooks();
 }
 
-function removeBook(title) {}
+function removeBook(title) {
+  const index = myLibrary.findIndex((book) => book.title === title);
+  if (index > -1) {
+    myLibrary.splice(index, 1);
+    displayBooks();
+  }
+}
 
 function displayBooks() {
-  const bookContainer = document.getElementById('book-container');
   bookContainer.innerHTML = '';
   for (const book of myLibrary) {
     const bookCard = document.createElement('div');
-    bookCard.classList.add('book-card');
     const bookTitle = document.createElement('h3');
-    bookTitle.textContent = book.title;
     const bookAuthor = document.createElement('p');
-    bookAuthor.textContent = `by ${book.author}`;
     const bookPages = document.createElement('p');
-    bookPages.textContent = `${book.pages} pages`;
     const bookRead = document.createElement('p');
+    bookCard.classList.add('book-card');
+    bookTitle.textContent = book.title;
+    bookAuthor.textContent = `by ${book.author}`;
+    bookPages.textContent = `${book.pages} pages`;
     if (book.read) {
       bookRead.textContent = 'Read';
     } else {
@@ -55,11 +71,7 @@ function displayBooks() {
     const removeButton = document.createElement('button');
     removeButton.textContent = 'Remove';
     removeButton.addEventListener('click', () => {
-      const index = myLibrary.indexOf(book);
-      if (index > -1) {
-        myLibrary.splice(index, 1);
-      }
-      displayBooks();
+      removeBook(book.title);
     });
     bookCard.appendChild(bookTitle);
     bookCard.appendChild(bookAuthor);
