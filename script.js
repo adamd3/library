@@ -2,26 +2,36 @@ const myLibrary = [];
 
 const newBookButton = document.getElementById('new-book-btn');
 const bookForm = document.getElementById('book-form');
-const formContainer = document.getElementById('form-container');
-const bookContainer = document.getElementById('book-container');
-
-newBookButton.addEventListener('click', showForm);
-
-bookForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  addBook();
-  bookForm.reset();
-  hideForm();
-  displayBooks();
-});
+const addBookModal = document.getElementById('add-book-modal');
+const closeBtn = document.querySelector('.close');
 
 function showForm() {
-  formContainer.style.display = 'block';
+  addBookModal.style.display = 'block';
 }
 
 function hideForm() {
-  formContainer.style.display = 'none';
+  addBookModal.style.display = 'none';
 }
+
+newBookButton.onclick = () => {
+  showForm();
+};
+
+closeBtn.onclick = () => {
+  hideForm();
+};
+
+bookForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  addBook(event);
+  hideForm();
+});
+
+window.onclick = function (event) {
+  if (event.target == addBookModal) {
+    addBookModal.style.display = 'none';
+  }
+};
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -38,9 +48,13 @@ function getBook() {
   return new Book(title, author, pages, read);
 }
 
-function addBook() {
+function addBook(event) {
+  event.preventDefault();
   const newBook = getBook();
   myLibrary.push(newBook);
+  document.getElementById('book-form').reset();
+  addBookModal.style.display = 'none';
+  displayBooks();
 }
 
 function removeBook(title) {
@@ -52,6 +66,7 @@ function removeBook(title) {
 }
 
 function displayBooks() {
+  const bookContainer = document.getElementById('book-container');
   bookContainer.innerHTML = '';
   for (const book of myLibrary) {
     const bookCard = document.createElement('div');
