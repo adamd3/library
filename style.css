@@ -79,49 +79,54 @@ button:hover {
   cursor: pointer;
 }
 
-.book {
-  border: 1px solid #ccc;
-  padding: 20px;
-  margin-bottom: 20px;
+.book-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 20px;
 }
 
-.book h3 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: normal;
-}
-
-.book p {
-  margin-bottom: 10px;
-}
-
-.read-status {
+.book-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
 }
 
-.read-status p {
-  margin-right: 10px;
+.book-card h3 {
+  font-size: 1.2rem;
+  margin: 0;
 }
 
-.read-status button {
-  background-color: #fff;
-  color: #333;
-  border: 2px solid #333;
-  padding: 5px 10px;
-  font-size: 14px;
-  margin-right: 10px;
-  transition: all 0.3s ease-in-out;
+.book-card p {
+  font-size: 1rem;
+  margin: 0;
 }
 
-.read-status button:hover {
-  background-color: #333;
-  color: #fff;
+.book-card .button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.book-card .button-container button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  color: white;
   cursor: pointer;
 }
 
-.form-group {
-  margin-bottom: 20px;
+.book-card .button-container .read {
+  background-color: green;
+}
+
+.book-card .button-container .unread {
+  background-color: red;
 }
 
 label {
