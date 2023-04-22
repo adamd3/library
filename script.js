@@ -58,12 +58,20 @@ class Library {
     }
   }
 
+  toggleRead() {
+    this.read = !this.read;
+  }
+
   getAllBooks() {
     return this.books;
   }
 }
 
 const library = new Library();
+
+Book.prototype.toggleRead = function () {
+  this.read = !this.read;
+};
 
 function getBook() {
   const title = document.getElementById('title').value;
@@ -87,19 +95,38 @@ const addBook = (event) => {
 const createBookDiv = (book) => {
   const bookContainer = document.getElementById('book-container');
   const bookCard = document.createElement('div');
+  const buttonContainer = document.createElement('div');
   const bookTitle = document.createElement('h3');
   const bookAuthor = document.createElement('p');
   const bookPages = document.createElement('p');
-  const bookRead = document.createElement('p');
+  const readButton = document.createElement('button');
   bookCard.classList.add('book-card');
+  buttonContainer.classList.add('button-container');
   bookTitle.textContent = book.title;
   bookAuthor.textContent = `by ${book.author}`;
   bookPages.textContent = `${book.pages} pages`;
   if (book.read) {
-    bookRead.textContent = 'Read';
+    readButton.classList.remove('unread');
+    readButton.classList.add('read');
+    readButton.textContent = 'Read';
   } else {
-    bookRead.textContent = 'Unread';
+    readButton.classList.remove('read');
+    readButton.classList.add('unread');
+    readButton.textContent = 'Unread';
   }
+  readButton.addEventListener('click', () => {
+    book.toggleRead();
+    if (book.read) {
+      readButton.classList.remove('unread');
+      readButton.classList.add('read');
+      readButton.textContent = 'Read';
+    } else {
+      readButton.classList.remove('read');
+      readButton.classList.add('unread');
+      readButton.textContent = 'Unread';
+    }
+    // displayBooks();
+  });
   const removeButton = document.createElement('button');
   removeButton.textContent = 'Remove';
   removeButton.addEventListener('click', () => {
@@ -108,8 +135,9 @@ const createBookDiv = (book) => {
   bookCard.appendChild(bookTitle);
   bookCard.appendChild(bookAuthor);
   bookCard.appendChild(bookPages);
-  bookCard.appendChild(bookRead);
-  bookCard.appendChild(removeButton);
+  buttonContainer.appendChild(readButton);
+  buttonContainer.appendChild(removeButton);
+  bookCard.appendChild(buttonContainer);
   bookContainer.appendChild(bookCard);
 };
 
