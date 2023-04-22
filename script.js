@@ -1,5 +1,3 @@
-const myLibrary = [];
-
 const newBookButton = document.getElementById('new-book-btn');
 const bookForm = document.getElementById('book-form');
 const addBookModal = document.getElementById('add-book-modal');
@@ -33,12 +31,39 @@ window.onclick = function (event) {
   }
 };
 
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
+class Book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
 }
+
+class Library {
+  constructor() {
+    this.books = [];
+  }
+
+  addBook(book) {
+    this.books.push(book);
+    displayBooks();
+  }
+
+  removeBook(title) {
+    const index = this.books.findIndex((book) => book.title === title);
+    if (index > -1) {
+      this.books.splice(index, 1);
+      displayBooks();
+    }
+  }
+
+  getAllBooks() {
+    return this.books;
+  }
+}
+
+const library = new Library();
 
 function getBook() {
   const title = document.getElementById('title').value;
@@ -52,26 +77,22 @@ const addBook = (event) => {
   event.preventDefault();
   try {
     const newBook = getBook();
-    myLibrary.push(newBook);
+    library.addBook(newBook);
     document.getElementById('book-form').reset();
-    displayBooks();
   } catch (error) {
     alert(error.message);
   }
 };
 
 const removeBook = (title) => {
-  const index = myLibrary.findIndex((book) => book.title === title);
-  if (index > -1) {
-    myLibrary.splice(index, 1);
-    displayBooks();
-  }
+  library.removeBook(title);
 };
 
 function displayBooks() {
   const bookContainer = document.getElementById('book-container');
   bookContainer.innerHTML = '';
-  for (const book of myLibrary) {
+  const books = library.getAllBooks();
+  for (const book of books) {
     const bookCard = document.createElement('div');
     const bookTitle = document.createElement('h3');
     const bookAuthor = document.createElement('p');
