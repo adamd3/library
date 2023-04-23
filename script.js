@@ -58,11 +58,13 @@ closeBtn.onclick = () => {
   hideForm();
 };
 
-bookForm.addEventListener('submit', (event) => {
+const handleFormSubmit = (event) => {
   event.preventDefault();
   addBook(event);
   hideForm();
-});
+};
+
+bookForm.addEventListener('submit', handleFormSubmit);
 
 window.onclick = function (event) {
   if (event.target == addBookModal) {
@@ -70,13 +72,13 @@ window.onclick = function (event) {
   }
 };
 
-function getBook() {
+const getBook = () => {
   const title = document.getElementById('title').value;
   const author = document.getElementById('author').value;
   const pages = document.getElementById('pages').value;
   const read = document.getElementById('read').checked;
   return new Book(title, author, pages, read);
-}
+};
 
 const addBook = (event) => {
   event.preventDefault();
@@ -89,27 +91,34 @@ const addBook = (event) => {
   }
 };
 
-const createBookDiv = (book) => {
-  const bookContainer = document.getElementById('book-container');
-  const bookCard = document.createElement('div');
-  const buttonContainer = document.createElement('div');
+const createBookTitle = (book) => {
   const bookTitle = document.createElement('h3');
-  const bookAuthor = document.createElement('p');
-  const bookPages = document.createElement('p');
-  const readButton = document.createElement('button');
-  const removeButton = document.createElement('button');
-
-  bookCard.classList.add('book-card');
-  removeButton.classList.add('btn-remove');
-
   bookTitle.textContent = book.title;
-  bookAuthor.textContent = `by ${book.author}`;
-  bookPages.textContent = `${book.pages} pages`;
+  return bookTitle;
+};
 
+const createBookAuthor = (book) => {
+  const bookAuthor = document.createElement('p');
+  bookAuthor.textContent = `by ${book.author}`;
+  return bookAuthor;
+};
+
+const createBookPages = (book) => {
+  const bookPages = document.createElement('p');
+  bookPages.textContent = `${book.pages} pages`;
+  return bookPages;
+};
+
+const createReadButton = (book) => {
+  const readButton = document.createElement('button');
   readButton.addEventListener('click', () => {
     book.toggleRead();
   });
+  updateReadButton(book, readButton);
+  return readButton;
+};
 
+const updateReadButton = (book, readButton) => {
   if (book.read) {
     readButton.classList.remove('btn-unread');
     readButton.classList.add('btn-read');
@@ -119,22 +128,38 @@ const createBookDiv = (book) => {
     readButton.classList.add('btn-unread');
     readButton.textContent = 'Unread';
   }
+};
 
+function createRemoveButton(book) {
+  const removeButton = document.createElement('button');
+  removeButton.classList.add('btn-remove');
   removeButton.textContent = 'Remove';
+
   removeButton.addEventListener('click', () => {
-    removeBook(book.title);
+    library.removeBook(book.title);
   });
+
+  return removeButton;
+}
+
+const createBookDiv = (book) => {
+  const bookContainer = document.getElementById('book-container');
+  const bookCard = document.createElement('div');
+  const bookTitle = createBookTitle(book);
+  const bookAuthor = createBookAuthor(book);
+  const bookPages = createBookPages(book);
+  const readButton = createReadButton(book);
+  const removeButton = createRemoveButton(book);
+
+  bookCard.classList.add('book-card');
 
   bookCard.appendChild(bookTitle);
   bookCard.appendChild(bookAuthor);
   bookCard.appendChild(bookPages);
   bookCard.appendChild(readButton);
   bookCard.appendChild(removeButton);
-  bookContainer.appendChild(bookCard);
-};
 
-const removeBook = (title) => {
-  library.removeBook(title);
+  bookContainer.appendChild(bookCard);
 };
 
 function displayBooks() {
