@@ -40,7 +40,14 @@ class Library {
   }
 }
 
-const library = new Library();
+const library = (() => {
+  const libraryInstance = new Library();
+  return {
+    addBook: (book) => libraryInstance.addBook(book),
+    removeBook: (title) => libraryInstance.removeBook(title),
+    getAllBooks: () => libraryInstance.getAllBooks(),
+  };
+})();
 
 function showForm() {
   addBookModal.style.display = 'block';
