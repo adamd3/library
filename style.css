@@ -1,4 +1,6 @@
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -71,62 +73,7 @@ button {
   font-size: 16px;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
-}
-
-button:hover {
-  background-color: #333;
-  color: #fff;
-  cursor: pointer;
-}
-
-.book-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 20px;
-}
-
-.book-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-  border: 1px solid #ccc;
   border-radius: 5px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem;
-}
-
-.book-card h3 {
-  font-size: 1.2rem;
-  margin: 0;
-}
-
-.book-card p {
-  font-size: 1rem;
-  margin: 0;
-}
-
-.book-card .button-container {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 1rem;
-}
-
-.book-card .button-container button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-}
-
-.book-card .button-container .read {
-  background-color: green;
-}
-
-.book-card .button-container .unread {
-  background-color: red;
 }
 
 label {
@@ -152,16 +99,57 @@ input[type="checkbox"] {
 }
 
 button[type="submit"] {
-  background-color: #333;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  transition: all 0.3s ease-in-out;
+  margin-top: 10px;
 }
 
-button[type="submit"]:hover {
-  background-color: #fff;
-  color: #333;
+button[type="submit"]:hover,
+.btn-remove:hover {
+  background-color: #040404;
   cursor: pointer;
+}
+
+.book-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.book-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+}
+
+.book-card h3 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.book-card p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.btn-read {
+  background-color: rgb(83, 175, 83);
+}
+
+.btn-unread {
+  background-color: rgb(237, 71, 71);
+}
+
+.btn-read:hover {
+  background-color: rgb(34, 114, 34);
+}
+
+.btn-unread:hover {
+  background-color: rgb(192, 33, 33);
 }
