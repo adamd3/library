@@ -10,6 +10,11 @@ class Book {
     this.pages = pages;
     this.read = read;
   }
+
+  toggleRead() {
+    this.read = !this.read;
+    displayBooks();
+  }
 }
 
 class Library {
@@ -28,10 +33,6 @@ class Library {
       this.books.splice(index, 1);
       displayBooks();
     }
-  }
-
-  toggleRead() {
-    this.read = !this.read;
   }
 
   getAllBooks() {
@@ -69,10 +70,6 @@ window.onclick = function (event) {
   }
 };
 
-Book.prototype.toggleRead = function () {
-  this.read = !this.read;
-};
-
 function getBook() {
   const title = document.getElementById('title').value;
   const author = document.getElementById('author').value;
@@ -101,10 +98,18 @@ const createBookDiv = (book) => {
   const bookPages = document.createElement('p');
   const readButton = document.createElement('button');
   const removeButton = document.createElement('button');
+
   bookCard.classList.add('book-card');
+  removeButton.classList.add('btn-remove');
+
   bookTitle.textContent = book.title;
   bookAuthor.textContent = `by ${book.author}`;
   bookPages.textContent = `${book.pages} pages`;
+
+  readButton.addEventListener('click', () => {
+    book.toggleRead();
+  });
+
   if (book.read) {
     readButton.classList.remove('btn-unread');
     readButton.classList.add('btn-read');
@@ -114,23 +119,12 @@ const createBookDiv = (book) => {
     readButton.classList.add('btn-unread');
     readButton.textContent = 'Unread';
   }
-  readButton.addEventListener('click', () => {
-    book.toggleRead();
-    if (book.read) {
-      readButton.classList.remove('btn-unread');
-      readButton.classList.add('btn-read');
-      readButton.textContent = 'Read';
-    } else {
-      readButton.classList.remove('btn-read');
-      readButton.classList.add('btn-unread');
-      readButton.textContent = 'Unread';
-    }
-  });
+
   removeButton.textContent = 'Remove';
-  removeButton.classList.add('btn-remove');
   removeButton.addEventListener('click', () => {
     removeBook(book.title);
   });
+
   bookCard.appendChild(bookTitle);
   bookCard.appendChild(bookAuthor);
   bookCard.appendChild(bookPages);
